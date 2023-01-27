@@ -13,4 +13,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <EditText
+            android:id="@+id/editProdutoNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edit_text"
+            android:ems="10"
+            android:hint="Nome do Produto "
+            android:inputType="text"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/editProdutoDescricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:background="@drawable/bg_edit_text"
+            android:ems="10"
+            android:hint="Descrição"
+            android:inputType="text"
+            android:padding="16dp" />
+
+
+        <EditText
+            android:id="@+id/editProdutoPreco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:background="@drawable/bg_edit_text"
+            android:ems="10"
+            android:hint="Preço"
+            android:inputType="number"
+            android:padding="16dp" />
+
+        <Button
+            android:id="@+id/buttonCadastrarProduto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="validarDadosProduto"
+            android:padding="16dp"
+            android:text="Cadastrar Produto"
+            android:theme="@style/botaoPadrao" />
+
+    </LinearLayout>
+
 </LinearLayout>
