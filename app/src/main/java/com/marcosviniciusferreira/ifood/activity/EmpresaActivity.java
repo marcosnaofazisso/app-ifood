@@ -58,6 +58,7 @@ public class EmpresaActivity extends AppCompatActivity {
         try {
 
             auth.signOut();
+            finish();
 
         } catch (Exception e) {
             Log.d("ERROR", "Logout Exception: " + e.getMessage());

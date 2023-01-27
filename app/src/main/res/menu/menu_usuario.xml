@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menuPesquisa"
+        android:icon="@drawable/ic_search"
+        android:title="Novo Produto"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuConfiguracoes"
+        android:title="Configuracoes"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menuSair"
+        android:title="Sair"
+        app:showAsAction="never" />
+
+</menu>
