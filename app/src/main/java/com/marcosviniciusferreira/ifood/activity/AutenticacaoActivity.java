@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
 
@@ -35,6 +36,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
         inicializarComponentes();
 
         auth = ConfiguracaoFirebase.getFirebaseAuth();
+
+        verificaUsuarioLogado();
 
         botaoAcessar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +86,9 @@ public class AutenticacaoActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+                        abrirTelaPrincipal();
+
                     } else {
                         exibirMensagemErro("Erro no cadastro. Verifique e tente novamente");
                     }
@@ -97,7 +102,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        abrirTelaPrincipal();
+
 
                     } else {
                         exibirMensagemErro("Erro no login. Verifique e tente novamente");
@@ -108,4 +114,17 @@ public class AutenticacaoActivity extends AppCompatActivity {
 
         }
     }
+
+    private void abrirTelaPrincipal() {
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+    }
+
+    private void verificaUsuarioLogado() {
+        FirebaseUser usuarioAtual = auth.getCurrentUser();
+        if (usuarioAtual != null) {
+            abrirTelaPrincipal();
+
+        }
+    }
+
 }
