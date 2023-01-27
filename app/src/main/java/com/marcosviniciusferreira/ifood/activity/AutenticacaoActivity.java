@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
+import com.marcosviniciusferreira.ifood.helper.UsuarioFirebase;
 
 public class AutenticacaoActivity extends AppCompatActivity {
 
@@ -105,6 +106,9 @@ public class AutenticacaoActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
+                        String tipoUsuario = getTipoUsuario();
+                        UsuarioFirebase.atualizarTipoUsuario(tipoUsuario);
+
                         abrirTelaPrincipal();
 
                     } else {
@@ -143,6 +147,10 @@ public class AutenticacaoActivity extends AppCompatActivity {
             abrirTelaPrincipal();
 
         }
+    }
+
+    private String getTipoUsuario() {
+        return switchAcessoUsuarioEmpresa.isChecked() ? "Empresa" : "Usuario";
     }
 
 }
