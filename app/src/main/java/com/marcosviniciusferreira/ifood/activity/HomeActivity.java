@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.adapter.AdapterEmpresa;
@@ -74,9 +75,11 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                
 
-                return false;
+                pesquisarEmpresas(newText);
+
+
+                return true;
             }
         });
 
@@ -102,6 +105,36 @@ public class HomeActivity extends AppCompatActivity {
                 }
         ));
 
+
+    }
+
+    private void pesquisarEmpresas(String pesquisa) {
+
+        DatabaseReference empresasRef = firebaseRef.child("empresas");
+
+        Query query = empresasRef.orderByChild("nome")
+                .startAt(pesquisa)
+                .endAt(pesquisa + "\uf8ff");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                empresas.clear();
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    empresas.add(ds.getValue(Empresa.class));
+
+                }
+                adapterEmpresa.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
