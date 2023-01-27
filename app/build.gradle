@@ -26,6 +26,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     //implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -40,9 +41,12 @@ dependencies {
     //Picasso dependencies
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //Material SeachView
+    //MaterialSeachView
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    //CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 
 
 }
