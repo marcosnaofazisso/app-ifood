@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -17,12 +19,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
+import com.marcosviniciusferreira.ifood.helper.UsuarioFirebase;
 
 public class AutenticacaoActivity extends AppCompatActivity {
 
     private Button botaoAcessar;
     private EditText campoEmail, campoSenha;
-    private Switch tipoAcesso;
+    private Switch tipoAcesso, switchAcessoUsuarioEmpresa;
+
+    private LinearLayout linearLayoutEmpresa;
 
     private FirebaseAuth auth;
 
@@ -37,7 +42,7 @@ public class AutenticacaoActivity extends AppCompatActivity {
 
         auth = ConfiguracaoFirebase.getFirebaseAuth();
 
-        verificaUsuarioLogado();
+        //verificaUsuarioLogado();
 
         botaoAcessar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +54,18 @@ public class AutenticacaoActivity extends AppCompatActivity {
             }
         });
 
+        tipoAcesso.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    linearLayoutEmpresa.setVisibility(View.VISIBLE);
+                } else {
+                    linearLayoutEmpresa.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
     }
 
     private void inicializarComponentes() {
@@ -56,6 +73,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
         campoEmail = findViewById(R.id.editCadastroEmail);
         campoSenha = findViewById(R.id.editCadastroSenha);
         tipoAcesso = findViewById(R.id.switchAcesso);
+        linearLayoutEmpresa = findViewById(R.id.linearLayoutEmpresa);
+        switchAcessoUsuarioEmpresa = findViewById(R.id.switchTipoAcesso);
 
     }
 
@@ -87,7 +106,10 @@ public class AutenticacaoActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        abrirTelaPrincipal();
+                        String tipoUsuario = getTipoUsuario();
+                        UsuarioFirebase.atualizarTipoUsuario(tipoUsuario);
+
+                        abrirTelaPrincipal(tipoUsuario);
 
                     } else {
                         exibirMensagemErro("Erro no cadastro. Verifique e tente novamente");
@@ -102,7 +124,12 @@ public class AutenticacaoActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        abrirTelaPrincipal();
+                        String tipoUsuario = task
+                                .getResult()
+                                .getUser()
+                                .getDisplayName();
+
+                        abrirTelaPrincipal(tipoUsuario);
 
 
                     } else {
@@ -115,16 +142,26 @@ public class AutenticacaoActivity extends AppCompatActivity {
         }
     }
 
-    private void abrirTelaPrincipal() {
-        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+    private void abrirTelaPrincipal(String tipoUsuario) {
+
+        if (tipoUsuario.equals("Empresa")) {
+            startActivity(new Intent(getApplicationContext(), EmpresaActivity.class));
+
+        } else {
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        }
     }
 
     private void verificaUsuarioLogado() {
         FirebaseUser usuarioAtual = auth.getCurrentUser();
         if (usuarioAtual != null) {
-            abrirTelaPrincipal();
+            abrirTelaPrincipal(usuarioAtual.getDisplayName());
 
         }
+    }
+
+    private String getTipoUsuario() {
+        return switchAcessoUsuarioEmpresa.isChecked() ? "Empresa" : "Usuario";
     }
 
 }

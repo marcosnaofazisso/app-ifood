@@ -13,7 +13,7 @@ public class ConfiguracaoFirebase {
     private static StorageReference referenciaStorage;
 
 
-    public static DatabaseReference getFirebase() {
+    public static DatabaseReference getFirebaseDatabase() {
         if (referenciaFirebase == null) {
             referenciaFirebase = FirebaseDatabase.getInstance().getReference();
         }
