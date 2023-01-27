@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -22,7 +24,9 @@ public class AutenticacaoActivity extends AppCompatActivity {
 
     private Button botaoAcessar;
     private EditText campoEmail, campoSenha;
-    private Switch tipoAcesso;
+    private Switch tipoAcesso, switchAcessoUsuarioEmpresa;
+
+    private LinearLayout linearLayoutEmpresa;
 
     private FirebaseAuth auth;
 
@@ -49,6 +53,18 @@ public class AutenticacaoActivity extends AppCompatActivity {
             }
         });
 
+        tipoAcesso.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    linearLayoutEmpresa.setVisibility(View.VISIBLE);
+                } else {
+                    linearLayoutEmpresa.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
     }
 
     private void inicializarComponentes() {
@@ -56,6 +72,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
         campoEmail = findViewById(R.id.editCadastroEmail);
         campoSenha = findViewById(R.id.editCadastroSenha);
         tipoAcesso = findViewById(R.id.switchAcesso);
+        linearLayoutEmpresa = findViewById(R.id.linearLayoutEmpresa);
+        switchAcessoUsuarioEmpresa = findViewById(R.id.switchTipoAcesso);
 
     }
 
