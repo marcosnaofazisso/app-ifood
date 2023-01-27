@@ -1,8 +1,10 @@
 package com.marcosviniciusferreira.ifood.activity;
 
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,7 +42,7 @@ public class AutenticacaoActivity extends AppCompatActivity {
 
         auth = ConfiguracaoFirebase.getFirebaseAuth();
 
-        //verificaUsuarioLogado();
+        verificaUsuarioLogado();
 
         botaoAcessar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +109,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
                         String tipoUsuario = getTipoUsuario();
                         UsuarioFirebase.atualizarTipoUsuario(tipoUsuario);
 
+                        limparCampos();
+
                         abrirTelaPrincipal(tipoUsuario);
 
                     } else {
@@ -126,6 +130,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
                                 .getResult()
                                 .getUser()
                                 .getDisplayName();
+
+                        limparCampos();
 
                         abrirTelaPrincipal(tipoUsuario);
 
@@ -160,6 +166,12 @@ public class AutenticacaoActivity extends AppCompatActivity {
 
     private String getTipoUsuario() {
         return switchAcessoUsuarioEmpresa.isChecked() ? "Empresa" : "Usuario";
+    }
+
+    private void limparCampos() {
+        campoEmail.setText("");
+        campoSenha.setText("");
+
     }
 
 }
