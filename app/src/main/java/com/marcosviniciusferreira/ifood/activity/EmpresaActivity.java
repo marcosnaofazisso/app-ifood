@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +24,7 @@ import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.adapter.AdapterProduto;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
 import com.marcosviniciusferreira.ifood.helper.UsuarioFirebase;
+import com.marcosviniciusferreira.ifood.listener.RecyclerItemClickListener;
 import com.marcosviniciusferreira.ifood.model.Produto;
 
 import java.util.ArrayList;
@@ -61,7 +64,36 @@ public class EmpresaActivity extends AppCompatActivity {
         recyclerProdutos.setHasFixedSize(true);
         recyclerProdutos.setAdapter(adapterProduto);
 
+        //Recupera produtos para a empresa
         recuperarProdutos();
+
+        //Adicionar evento de clique no recyclerview
+        recyclerProdutos.addOnItemTouchListener(new RecyclerItemClickListener(
+                this,
+                recyclerProdutos,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                        Produto produtoSelecionado = produtos.get(position);
+
+                        produtoSelecionado.remover();
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+        ));
+
+
     }
 
     private void inicializarComponentes() {
