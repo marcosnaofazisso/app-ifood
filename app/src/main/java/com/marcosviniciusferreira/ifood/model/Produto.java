@@ -6,26 +6,37 @@ import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
 public class Produto {
 
     private String idEmpresa;
+    private String idProduto;
     private String nome;
     private String descricao;
     private Double preco;
 
     public Produto() {
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference produtoRef = firebaseRef.child("produtos");
+        setIdProduto(produtoRef.push().getKey());
     }
 
-    public Produto(String idEmpresa, String nome, String descricao, Double preco) {
-        this.idEmpresa = idEmpresa;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-    }
 
     public void salvar() {
+
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
-        DatabaseReference produtoRef = firebaseRef.child("produtos")
-                .child(getIdEmpresa());
+        DatabaseReference produtoRef = firebaseRef
+                .child("produtos")
+                .child(getIdEmpresa())
+                .child(getIdProduto());
         produtoRef.setValue(this);
 
+    }
+
+    public void remover() {
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference produtoRef = firebaseRef
+                .child("produtos")
+                .child(getIdEmpresa())
+                .child(getIdProduto());
+        produtoRef.removeValue();
     }
 
     public String getIdEmpresa() {
@@ -58,5 +69,13 @@ public class Produto {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public String getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(String idProduto) {
+        this.idProduto = idProduto;
     }
 }
