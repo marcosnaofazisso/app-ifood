@@ -41,7 +41,7 @@ public class AutenticacaoActivity extends AppCompatActivity {
 
         auth = ConfiguracaoFirebase.getFirebaseAuth();
 
-        verificaUsuarioLogado();
+        //verificaUsuarioLogado();
 
         botaoAcessar.setOnClickListener(new View.OnClickListener() {
             @Override
