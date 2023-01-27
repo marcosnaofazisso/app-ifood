@@ -109,7 +109,7 @@ public class AutenticacaoActivity extends AppCompatActivity {
                         String tipoUsuario = getTipoUsuario();
                         UsuarioFirebase.atualizarTipoUsuario(tipoUsuario);
 
-                        abrirTelaPrincipal();
+                        abrirTelaPrincipal(tipoUsuario);
 
                     } else {
                         exibirMensagemErro("Erro no cadastro. Verifique e tente novamente");
@@ -124,7 +124,12 @@ public class AutenticacaoActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        abrirTelaPrincipal();
+                        String tipoUsuario = task
+                                .getResult()
+                                .getUser()
+                                .getDisplayName();
+
+                        abrirTelaPrincipal(tipoUsuario);
 
 
                     } else {
@@ -137,14 +142,20 @@ public class AutenticacaoActivity extends AppCompatActivity {
         }
     }
 
-    private void abrirTelaPrincipal() {
-        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+    private void abrirTelaPrincipal(String tipoUsuario) {
+
+        if (tipoUsuario.equals("Empresa")) {
+            startActivity(new Intent(getApplicationContext(), EmpresaActivity.class));
+
+        } else {
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        }
     }
 
     private void verificaUsuarioLogado() {
         FirebaseUser usuarioAtual = auth.getCurrentUser();
         if (usuarioAtual != null) {
-            abrirTelaPrincipal();
+            abrirTelaPrincipal(usuarioAtual.getDisplayName());
 
         }
     }
