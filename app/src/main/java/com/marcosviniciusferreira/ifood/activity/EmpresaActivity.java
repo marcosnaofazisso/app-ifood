@@ -3,6 +3,7 @@ package com.marcosviniciusferreira.ifood.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
 
@@ -68,9 +68,12 @@ public class EmpresaActivity extends AppCompatActivity {
 
     private void abrirConfiguracoes() {
 
+        startActivity(new Intent(EmpresaActivity.this, ConfiguracoesEmpresaActivity.class));
+
     }
 
     private void abrirNovoProduto() {
+        startActivity(new Intent(EmpresaActivity.this, NovoProdutoEmpresaActivity.class));
 
     }
 }
