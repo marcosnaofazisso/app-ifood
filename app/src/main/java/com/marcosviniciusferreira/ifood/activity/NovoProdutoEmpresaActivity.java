@@ -51,8 +51,15 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity {
             if (!descricao.isEmpty()) {
                 if (!preco.isEmpty()) {
 
-                    Produto produto = new Produto(idEmpresaLogada, nome, descricao, Double.parseDouble(preco));
+                    Produto produto = new Produto();
+                    produto.setIdEmpresa(idEmpresaLogada);
+                    produto.setNome(nome);
+                    produto.setDescricao(descricao);
+                    produto.setPreco(Double.parseDouble(preco));
                     produto.salvar();
+
+                    finish();
+                    Toast.makeText(NovoProdutoEmpresaActivity.this, "Produto salvo com sucesso!", Toast.LENGTH_SHORT);
 
 
                 } else {
