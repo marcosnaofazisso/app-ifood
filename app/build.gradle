@@ -50,6 +50,10 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //Spots Dialog
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+
+
 
 }
 
