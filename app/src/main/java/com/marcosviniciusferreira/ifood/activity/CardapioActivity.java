@@ -32,6 +32,7 @@ import com.marcosviniciusferreira.ifood.helper.UsuarioFirebase;
 import com.marcosviniciusferreira.ifood.listener.RecyclerItemClickListener;
 import com.marcosviniciusferreira.ifood.model.Empresa;
 import com.marcosviniciusferreira.ifood.model.ItemPedido;
+import com.marcosviniciusferreira.ifood.model.Pedido;
 import com.marcosviniciusferreira.ifood.model.Produto;
 import com.marcosviniciusferreira.ifood.model.Usuario;
 import com.squareup.picasso.Picasso;
@@ -50,8 +51,11 @@ public class CardapioActivity extends AppCompatActivity {
     private Empresa empresaSelecionada;
     private String idEmpresa;
     private DatabaseReference firebaseRef;
+
     private List<Produto> produtos = new ArrayList<>();
     private List<ItemPedido> itensCarrinho = new ArrayList<>();
+
+    private Pedido pedidoRecuperado;
 
     private AlertDialog dialog;
     private Usuario usuario;
@@ -158,6 +162,14 @@ public class CardapioActivity extends AppCompatActivity {
                     itemPedido.setPreco(produtoSelecionado.getPreco());
                     itemPedido.setQuantidade(Integer.parseInt(quantidade));
                     itensCarrinho.add(itemPedido);
+
+                    if (pedidoRecuperado == null) {
+                        pedidoRecuperado = new Pedido(idUsuarioLogado, idEmpresa);
+                    }
+                    pedidoRecuperado.setNome(usuario.getNome());
+                    pedidoRecuperado.setEndereco(usuario.getEndereco());
+                    pedidoRecuperado.setItens(itensCarrinho);
+                    pedidoRecuperado.salvar();
 
                 }
 
