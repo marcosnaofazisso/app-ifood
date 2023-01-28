@@ -3,7 +3,9 @@ package com.marcosviniciusferreira.ifood.model;
 import com.google.firebase.database.DatabaseReference;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
 
-public class Empresa {
+import java.io.Serializable;
+
+public class Empresa implements Serializable {
 
     private String idUsuario;
     private String urlImagem;
