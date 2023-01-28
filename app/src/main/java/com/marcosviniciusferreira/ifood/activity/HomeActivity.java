@@ -78,7 +78,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 pesquisarEmpresas(newText);
 
-
                 return true;
             }
         });
@@ -90,6 +89,12 @@ public class HomeActivity extends AppCompatActivity {
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+
+                        Empresa empresaSelecionada = empresas.get(position);
+
+                        Intent i = new Intent(HomeActivity.this, CardapioActivity.class);
+                        i.putExtra("empresa", empresaSelecionada);
+                        startActivity(i);
 
                     }
 
