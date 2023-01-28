@@ -6,14 +6,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +29,9 @@ import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.adapter.AdapterProduto;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
 import com.marcosviniciusferreira.ifood.helper.UsuarioFirebase;
+import com.marcosviniciusferreira.ifood.listener.RecyclerItemClickListener;
 import com.marcosviniciusferreira.ifood.model.Empresa;
+import com.marcosviniciusferreira.ifood.model.ItemPedido;
 import com.marcosviniciusferreira.ifood.model.Produto;
 import com.marcosviniciusferreira.ifood.model.Usuario;
 import com.squareup.picasso.Picasso;
@@ -41,8 +49,9 @@ public class CardapioActivity extends AppCompatActivity {
     private TextView textNomeEmpresaCardapio;
     private Empresa empresaSelecionada;
     private String idEmpresa;
-    private List<Produto> produtos = new ArrayList<>();
     private DatabaseReference firebaseRef;
+    private List<Produto> produtos = new ArrayList<>();
+    private List<ItemPedido> itensCarrinho = new ArrayList<>();
 
     private AlertDialog dialog;
     private Usuario usuario;
@@ -86,9 +95,83 @@ public class CardapioActivity extends AppCompatActivity {
         recyclerProdutosCardapio.setHasFixedSize(true);
         recyclerProdutosCardapio.setAdapter(adapterProduto);
 
+        //Configurar evento de clique
+        recyclerProdutosCardapio.addOnItemTouchListener(new RecyclerItemClickListener(
+                this,
+                recyclerProdutosCardapio,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+                        confirmarQuantidade(position);
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+        ));
+
+        //Recuperar produtos da empresa
         recuperarCardapio();
 
+        //Recuperar dados do usuario
         recuperarDadosUsuario();
+
+
+    }
+
+    private void confirmarQuantidade(final int position) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Quantidade");
+        builder.setMessage("Digite a quantidade");
+
+        final EditText editQuantidade = new EditText(this);
+        editQuantidade.setInputType(InputType.TYPE_CLASS_NUMBER);
+        editQuantidade.setText("1");
+
+        builder.setView(editQuantidade);
+
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Produto produtoSelecionado = produtos.get(position);
+                String quantidade = editQuantidade.getText().toString();
+
+                if (Integer.parseInt(quantidade) < 1) {
+                    Toast.makeText(CardapioActivity.this, "Quantidade incorreta!", Toast.LENGTH_SHORT);
+
+                } else {
+
+                    ItemPedido itemPedido = new ItemPedido();
+                    itemPedido.setIdProduto(produtoSelecionado.getIdProduto());
+                    itemPedido.setNomeProduto(produtoSelecionado.getNome());
+                    itemPedido.setPreco(produtoSelecionado.getPreco());
+                    itemPedido.setQuantidade(Integer.parseInt(quantidade));
+                    itensCarrinho.add(itemPedido);
+
+                }
+
+
+            }
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
 
     }
@@ -175,7 +258,7 @@ public class CardapioActivity extends AppCompatActivity {
             finalizarPedido();
 
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -187,6 +270,9 @@ public class CardapioActivity extends AppCompatActivity {
         recyclerProdutosCardapio = findViewById(R.id.recyclerProdutoCardapio);
         imagemEmpresaCardapio = findViewById(R.id.imageEmpresaCardapio);
         textNomeEmpresaCardapio = findViewById(R.id.textNomeEmpresaCardapio);
+
+        textCarrinhoQtd = findViewById(R.id.textCarrinhoQtd);
+        textCarrinhoTotal = findViewById(R.id.textCarrinhoTotal);
 
 
     }
