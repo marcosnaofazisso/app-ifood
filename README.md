@@ -1,7 +1,7 @@
 # Ifood Clone
 
-<img src="./demo/ifood-clone.jpg" height="600" width="1000">
-<img src="./demo/ifood-clone2.jpg" height="600" width="1000">
+<img src="./demo/ifood-clone.jpg" height="500" width="850">
+<img src="./demo/ifood-clone2.jpg" height="500" width="850">
 
 A basic Ifood Clone project, integrated with Firebase Auth, Realtime Database and Storage.
 
