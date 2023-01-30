@@ -1,6 +1,7 @@
 # Ifood Clone
 
-<img src="./demo/ifood-clone.jpg" height="300" width="600">
+<img src="./demo/ifood-clone.jpg" height="600" width="1000">
+<img src="./demo/ifood-clone2.jpg" height="600" width="1000">
 
 A basic Ifood Clone project, integrated with Firebase Auth, Realtime Database and Storage.
 
@@ -15,6 +16,9 @@ All data were saved on Firebase Database, updating in real time for both visuali
 The images were saved in Firebase Storage and the library used was Picasso.
 
 # Demo
+
+https://user-images.githubusercontent.com/79977399/215585977-15a10eb1-6ac0-460a-973c-42584549f424.mp4
+
 
 White Emulator: User
 Black Emulator: Company (Restaurant)
