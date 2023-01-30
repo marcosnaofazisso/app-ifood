@@ -1,9 +1,11 @@
 package com.marcosviniciusferreira.ifood.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.model.Produto;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,6 +41,14 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
         holder.nome.setText(produto.getNome());
         holder.descricao.setText(produto.getDescricao());
         holder.valor.setText("R$ " + produto.getPreco());
+
+        if (produto.getUrlImagem() != null) {
+            Picasso.get().load(produto.getUrlImagem()).into(holder.foto);
+        } else {
+            Picasso.get().load(R.drawable.comida).into(holder.foto);
+
+        }
+
     }
 
     @Override
@@ -50,6 +61,7 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
         TextView nome;
         TextView descricao;
         TextView valor;
+        ImageView foto;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -57,6 +69,7 @@ public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHo
             nome = itemView.findViewById(R.id.textNomeRefeicao);
             descricao = itemView.findViewById(R.id.textDescricaoRefeicao);
             valor = itemView.findViewById(R.id.textPreco);
+            foto = itemView.findViewById(R.id.imageRefeicao);
         }
     }
 }

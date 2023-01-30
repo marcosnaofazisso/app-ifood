@@ -9,6 +9,7 @@ public class Produto {
     private String idProduto;
     private String nome;
     private String descricao;
+    private String urlImagem;
     private Double preco;
 
     public Produto() {
@@ -45,6 +46,14 @@ public class Produto {
 
     public void setIdEmpresa(String idEmpresa) {
         this.idEmpresa = idEmpresa;
+    }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
 
     public String getNome() {

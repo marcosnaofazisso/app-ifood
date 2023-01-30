@@ -388,7 +388,7 @@ public class CardapioActivity extends AppCompatActivity {
 
                 pedidoRecuperado = null;
 
-                Toast.makeText(CardapioActivity.this, "Pedido realizado com sucesso!", Toast.LENGTH_LONG);
+                Toast.makeText(CardapioActivity.this, "Pedido realizado com sucesso!", Toast.LENGTH_LONG).show();
 
                 finish();
 

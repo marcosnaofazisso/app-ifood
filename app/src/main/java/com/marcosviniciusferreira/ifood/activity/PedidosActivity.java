@@ -1,9 +1,16 @@
 package com.marcosviniciusferreira.ifood.activity;
 
 import android.app.AlertDialog;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,8 +23,8 @@ import com.marcosviniciusferreira.ifood.R;
 import com.marcosviniciusferreira.ifood.adapter.AdapterPedido;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
 import com.marcosviniciusferreira.ifood.helper.UsuarioFirebase;
+import com.marcosviniciusferreira.ifood.listener.RecyclerItemClickListener;
 import com.marcosviniciusferreira.ifood.model.Pedido;
-import com.marcosviniciusferreira.ifood.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +48,7 @@ public class PedidosActivity extends AppCompatActivity {
 
 
         //Configuracoes Toolbar
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Pedidos");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,6 +65,33 @@ public class PedidosActivity extends AppCompatActivity {
         recyclerPedidos.setAdapter(adapter);
 
         recuperarPedidos();
+
+        recyclerPedidos.addOnItemTouchListener(new RecyclerItemClickListener(
+                this,
+                recyclerPedidos,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                        Pedido pedido = pedidos.get(position);
+                        pedido.setStatus("finalizado");
+                        pedido.atualizarStatus();
+
+                        Toast.makeText(PedidosActivity.this, "Pedido finalizado com sucesso!", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+        ));
 
 
     }
@@ -94,11 +128,24 @@ public class PedidosActivity extends AppCompatActivity {
                     }
 
                     adapter.notifyDataSetChanged();
-                    dialog.dismiss();
 
                 }
+                if (pedidos.size() < 1) {
+                    TextView textView = new TextView(PedidosActivity.this);
+                    textView.setText("Não há pedidos atualmente");
+                    textView.setTypeface(null, Typeface.BOLD);
+                    textView.setPadding(20, 30, 20, 20);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    }
+                    PedidosActivity.super.setContentView(textView);
+
+
+                }
+                dialog.dismiss();
 
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

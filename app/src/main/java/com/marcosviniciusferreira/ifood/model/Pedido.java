@@ -5,6 +5,7 @@ import android.content.ClipData;
 import com.google.firebase.database.DatabaseReference;
 import com.marcosviniciusferreira.ifood.helper.ConfiguracaoFirebase;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Pedido {
@@ -72,6 +73,21 @@ public class Pedido {
 
         pedidoRef.setValue(this);
 
+
+    }
+
+    public void atualizarStatus() {
+
+        HashMap<String, Object> status = new HashMap<>();
+        status.put("status", getStatus());
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("pedidos")
+                .child(getIdEmpresa())
+                .child(getIdPedido());
+
+        pedidoRef.updateChildren(status);
 
     }
 
