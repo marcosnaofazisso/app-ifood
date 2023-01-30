@@ -133,6 +133,7 @@ public class PedidosActivity extends AppCompatActivity {
                 if (pedidos.size() < 1) {
                     TextView textView = new TextView(PedidosActivity.this);
                     textView.setText("Não há pedidos atualmente");
+                    textView.setTextSize(20);
                     textView.setTypeface(null, Typeface.BOLD);
                     textView.setPadding(20, 30, 20, 20);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
