@@ -388,7 +388,9 @@ public class CardapioActivity extends AppCompatActivity {
 
                 pedidoRecuperado = null;
 
-                //finish();
+                Toast.makeText(CardapioActivity.this, "Pedido realizado com sucesso!", Toast.LENGTH_LONG);
+
+                finish();
 
             }
         }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

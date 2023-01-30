@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textPedidoNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Jamilton damasceno"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textPedidoEndereco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Endereço: rua almeida prado, 1300"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoPgto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pgto: Dinheiro"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoObs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Obs: teste"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textPedidoItens"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1) Filé Cinco Queijos (1 X R$ 16.50)"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <include layout="@layout/divisor" />
+
+</LinearLayout>
