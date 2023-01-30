@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +37,7 @@ import com.marcosviniciusferreira.ifood.model.Produto;
 import com.marcosviniciusferreira.ifood.model.Usuario;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,14 @@ public class CardapioActivity extends AppCompatActivity {
     private Usuario usuario;
     private String idUsuarioLogado;
     private TextView textCarrinhoQtd, textCarrinhoTotal;
+    private int qtdItensCarrinho;
+    private Double totalCarrinho;
+
+    private int metodoPagamento;
+
+    private LinearLayout layout;
+    private TextView textPix;
+    private EditText editObservacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,7 +232,52 @@ public class CardapioActivity extends AppCompatActivity {
 
     private void recuperarPedido() {
 
-        dialog.dismiss();
+        DatabaseReference pedidoRef = firebaseRef.child("pedidos_usuario")
+                .child(idEmpresa)
+                .child(idUsuarioLogado);
+
+        pedidoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                itensCarrinho = new ArrayList<>();
+                qtdItensCarrinho = 0;
+                totalCarrinho = 0.0;
+
+                if (dataSnapshot.getValue() != null) {
+
+                    pedidoRecuperado = dataSnapshot.getValue(Pedido.class);
+
+                    itensCarrinho = pedidoRecuperado.getItens();
+
+
+                    for (ItemPedido itemPedido : itensCarrinho) {
+
+                        int qtde = itemPedido.getQuantidade();
+                        Double preco = itemPedido.getPreco();
+
+                        totalCarrinho += (qtde * preco);
+                        qtdItensCarrinho += qtde;
+
+                    }
+
+                }
+
+                DecimalFormat df = new DecimalFormat("0.00");
+
+                textCarrinhoQtd.setText("qtd: " + qtdItensCarrinho);
+                textCarrinhoTotal.setText("R$ " + df.format(totalCarrinho));
+
+                dialog.dismiss();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
@@ -267,14 +321,89 @@ public class CardapioActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menuPedido) {
-            finalizarPedido();
+            confirmarPedido();
 
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void finalizarPedido() {
+    private void confirmarPedido() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecione um método de pagamento");
+
+        CharSequence[] itens = new CharSequence[]{
+                "Máquina de Cartão", "Dinheiro", "Pix"
+        };
+
+
+        layout = new LinearLayout(getApplicationContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        textPix = new TextView(CardapioActivity.this);
+        textPix.setText("Chave: 123.456.789-10");
+        textPix.setTypeface(null, Typeface.BOLD);
+        textPix.setPadding(16, 16, 16, 16);
+
+        final EditText editObservacao = new EditText(this);
+        editObservacao.setHint("Digite uma observação");
+        layout.addView(editObservacao);
+
+        builder.setSingleChoiceItems(itens, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //Opções do checked item:
+                // 0 -> máquina de cartão
+                // 1 -> dinheiro
+                // 2 -> pix
+                metodoPagamento = which;
+                if (metodoPagamento == 2 && layout.getChildCount() <= 1) {
+                    layout.addView(textPix);
+
+                } else if (layout.getChildCount() > 1) {
+                    layout.removeView(textPix);
+
+                }
+
+
+            }
+        });
+
+
+        builder.setView(layout);
+
+
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String observacao = editObservacao.getText().toString();
+                pedidoRecuperado.setMetodoPagamento(metodoPagamento);
+                pedidoRecuperado.setObservacao(observacao);
+                pedidoRecuperado.setStatus("confirmado");
+                pedidoRecuperado.confirmar();
+                pedidoRecuperado.remover();
+
+                pedidoRecuperado = null;
+
+                Toast.makeText(CardapioActivity.this, "Pedido realizado com sucesso!", Toast.LENGTH_LONG).show();
+
+                finish();
+
+            }
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
     }
 
     private void inicializarComponentes() {
