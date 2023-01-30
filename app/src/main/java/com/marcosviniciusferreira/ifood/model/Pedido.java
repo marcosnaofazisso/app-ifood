@@ -50,6 +50,19 @@ public class Pedido {
 
     }
 
+    public void confirmar() {
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("pedidos")
+                .child(getIdEmpresa())
+                .child(getIdPedido());
+
+        pedidoRef.setValue(this);
+
+
+    }
+
     public String getIdUsuario() {
         return idUsuario;
     }
@@ -129,4 +142,6 @@ public class Pedido {
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
     }
+
+
 }
