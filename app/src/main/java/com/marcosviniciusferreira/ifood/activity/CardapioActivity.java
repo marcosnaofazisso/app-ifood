@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +66,10 @@ public class CardapioActivity extends AppCompatActivity {
     private Double totalCarrinho;
 
     private int metodoPagamento;
+
+    private LinearLayout layout;
+    private TextView textPix;
+    private EditText editObservacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -327,10 +333,23 @@ public class CardapioActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Selecione um método de pagamento");
 
-
         CharSequence[] itens = new CharSequence[]{
                 "Máquina de Cartão", "Dinheiro", "Pix"
         };
+
+
+        layout = new LinearLayout(getApplicationContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        textPix = new TextView(CardapioActivity.this);
+        textPix.setText("Chave: 123.456.789-10");
+        textPix.setTypeface(null, Typeface.BOLD);
+        textPix.setPadding(16, 16, 16, 16);
+
+        final EditText editObservacao = new EditText(this);
+        editObservacao.setHint("Digite uma observação");
+        layout.addView(editObservacao);
+
         builder.setSingleChoiceItems(itens, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -339,15 +358,22 @@ public class CardapioActivity extends AppCompatActivity {
                 // 0 -> máquina de cartão
                 // 1 -> dinheiro
                 // 2 -> pix
-
                 metodoPagamento = which;
+                if (metodoPagamento == 2 && layout.getChildCount() <= 1) {
+                    layout.addView(textPix);
+
+                } else if (layout.getChildCount() > 1) {
+                    layout.removeView(textPix);
+
+                }
+
 
             }
         });
 
-        final EditText editObservacao = new EditText(this);
-        editObservacao.setHint("Digite uma observação");
-        builder.setView(editObservacao);
+
+        builder.setView(layout);
+
 
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override
@@ -358,6 +384,11 @@ public class CardapioActivity extends AppCompatActivity {
                 pedidoRecuperado.setObservacao(observacao);
                 pedidoRecuperado.setStatus("confirmado");
                 pedidoRecuperado.confirmar();
+                pedidoRecuperado.remover();
+
+                pedidoRecuperado = null;
+
+                //finish();
 
             }
         }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

@@ -50,6 +50,18 @@ public class Pedido {
 
     }
 
+    public void remover() {
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("pedidos_usuario")
+                .child(getIdEmpresa())
+                .child(getIdUsuario());
+
+        pedidoRef.removeValue();
+
+    }
+
     public void confirmar() {
 
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
