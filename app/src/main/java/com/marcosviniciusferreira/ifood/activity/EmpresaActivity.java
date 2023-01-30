@@ -145,8 +145,16 @@ public class EmpresaActivity extends AppCompatActivity {
             abrirConfiguracoes();
         } else if (item.getItemId() == R.id.menuNovoProduto) {
             abrirNovoProduto();
+        } else if (item.getItemId() == R.id.menuPedidos) {
+            abrirPedidos();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void abrirPedidos() {
+
+        startActivity(new Intent(EmpresaActivity.this, PedidosActivity.class));
+
     }
 
     private void deslogarUsuario() {

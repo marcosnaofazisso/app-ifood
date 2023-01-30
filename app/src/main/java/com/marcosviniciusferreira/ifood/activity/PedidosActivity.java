@@ -19,6 +19,7 @@ import com.marcosviniciusferreira.ifood.helper.UsuarioFirebase;
 import com.marcosviniciusferreira.ifood.model.Pedido;
 import com.marcosviniciusferreira.ifood.model.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
@@ -27,7 +28,7 @@ public class PedidosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerPedidos;
     private AdapterPedido adapter;
-    private List<Pedido> pedidos;
+    private List<Pedido> pedidos = new ArrayList<>();
     private AlertDialog dialog;
 
     private DatabaseReference firebaseRef;

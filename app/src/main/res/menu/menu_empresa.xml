@@ -9,6 +9,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/menuPedidos"
+        android:icon="@drawable/ic_assignment"
+        android:title="Pedidos"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/menuConfiguracoes"
         android:title="Configuracoes"
         app:showAsAction="never" />
