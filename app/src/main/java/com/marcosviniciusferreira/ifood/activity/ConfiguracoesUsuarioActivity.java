@@ -86,6 +86,8 @@ public class ConfiguracoesUsuarioActivity extends AppCompatActivity {
             exibirMensagemErro("Preencha o campo nome!");
         }
 
+
+
     }
 
     private void exibirMensagemErro(String mensagem) {

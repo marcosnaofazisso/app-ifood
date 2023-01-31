@@ -34,6 +34,8 @@ public class Empresa implements Serializable {
         this.precoEntrega = precoEntrega;
     }
 
+
+
     public String getIdUsuario() {
         return idUsuario;
     }

@@ -19,6 +19,8 @@ public class ConfiguracaoFirebase {
         }
         return referenciaFirebase;
 
+
+
     }
 
     public static FirebaseAuth getFirebaseAuth() {

@@ -197,6 +197,8 @@ public class CardapioActivity extends AppCompatActivity {
 
     }
 
+
+
     private void recuperarDadosUsuario() {
 
         dialog = new SpotsDialog.Builder()

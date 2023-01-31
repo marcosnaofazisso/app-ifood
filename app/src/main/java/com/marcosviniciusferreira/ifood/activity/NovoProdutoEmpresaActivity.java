@@ -158,6 +158,8 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity {
                                 );
                         break;
                 }
+
+
                 if (imagem != null) {
 
                     imageNovoProduto.setImageBitmap(imagem);

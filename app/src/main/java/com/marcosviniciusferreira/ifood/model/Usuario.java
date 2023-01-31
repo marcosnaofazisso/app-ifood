@@ -21,6 +21,8 @@ public class Usuario {
 
     }
 
+    
+
     public String getIdUsuario() {
         return idUsuario;
     }
