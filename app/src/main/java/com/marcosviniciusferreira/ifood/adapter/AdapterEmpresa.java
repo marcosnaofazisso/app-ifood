@@ -31,6 +31,8 @@ public class AdapterEmpresa extends RecyclerView.Adapter<AdapterEmpresa.MyViewHo
         return new MyViewHolder(itemLista);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
         Empresa empresa = empresas.get(i);

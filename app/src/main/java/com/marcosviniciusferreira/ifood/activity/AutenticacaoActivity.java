@@ -93,6 +93,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void exibirMensagemErro(String mensagem) {
         Toast.makeText(AutenticacaoActivity.this, mensagem, Toast.LENGTH_SHORT);
 
